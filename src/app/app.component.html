@@ -1,0 +1,37 @@
+<div class="col-md-6" style="overflow-y: auto;">
+	<div class="drop" [style.border-width.px]="imagens.length > 0 ? 0: 3">
+		<div class="abc" cdkDropList #dropList="cdkDropList" cdkDropListOrientation="center"
+			[cdkDropListData]="imagens" [cdkDropListConnectedTo]="[dragList]" (cdkDropListDropped)="openModal($event,'custom-modal-1')" >
+
+
+    <jw-modal id="custom-modal-1">
+     <blockquote class="blockquote text-center">
+     <p class="mb-0">You are trying to replace one image with another.</p>
+     <footer class="blockquote-footer">Do you want to continue ? <cite title="Source Title">Yes/No</cite></footer>
+     </blockquote>
+
+     <!-- <div class="btn-group" role="group" cdkDrop (cdkDropDropped)="dropped($event)"> -->
+     <button type="button" class="btn btn-outline-danger" (click)="closeModal('custom-modal-1',true);">Yes</button>
+     <button type="button" class="btn btn-outline-warning" (click)="closeModal('custom-modal-1',false);">No</button>
+     <!-- </div> -->
+    </jw-modal>
+
+			<ngb-carousel data-interval="false" style="outline: none;" id="carousel" #carousel *ngIf="imagens"
+				(slide)="change($event)">
+				<ng-template *ngFor="let imgIdx of imagens; let i = index" [id]="i" ngbSlide>
+					<div class="picsum-img-wrapper" cdkDrag [cdkDragDisabled]="true">
+						<img [src]="imgIdx.Imagem" style="border-radius: 8px;" class="img-responsive Images">
+          </div>
+				</ng-template>
+			</ngb-carousel>
+		</div>
+	</div>
+
+  
+	<div class="row" cdkDropList #dragList="cdkDropList" cdkDropListOrientation="vertical"
+		[cdkDropListData]="imagens2" [cdkDropListConnectedTo]="[dropList]" (cdkDropListDropped)="drop($event)">
+		<div class="Upcard" *ngFor="let imgIdx of imagens2" cdkDrag>
+			<img class="img-responsive" [src]="imgIdx.Imagem" style="width: 100%; height: 100%">
+          </div>
+		</div>
+	</div>
